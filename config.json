@@ -1,0 +1,19 @@
+{
+	"server": {
+		"views": "public/html/*.html",
+		"listen": ":8080"
+	},
+	"db": {
+		"user": "root",
+		"password": "",
+		"host": "localhost",
+		"port": "3306",
+		"name": "procan"
+	},
+	"redis": {
+		"addr": "localhost",
+		"port": "6379",
+		"password": "",
+		"db": 0
+	}
+}

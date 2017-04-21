@@ -1,0 +1,21 @@
+{{define "login"}}
+<html>
+<head> 
+</head>
+<body>
+	<section id="loginForm">
+		<form method="post" action="/v1/dologin">
+			<p>
+				<label for="userid">ユーザーID:</label><input type="text" id="userid" name="userid" />
+			</p>
+			<p>
+				<label for="password">パスワード:</label><input type="password" id="password" name="password" />
+			</p>
+			<p>
+				<input type="submit" id="loginBtn" name="loginBtn" />
+			</p>
+		</form>
+	</section>
+</body>    
+</html>
+{{end}}

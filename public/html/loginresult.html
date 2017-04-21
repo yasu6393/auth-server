@@ -1,0 +1,27 @@
+{{define "loginresult"}}
+<html>
+<head> 
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+$(function () {
+	var result = "";
+	var search = $(location).attr("search");
+	if (search.indexOf("key=") < 0) {
+		result = "<span>ログインに失敗しました。</span>";
+	}
+	else {
+		var key = search.substr(5);
+		result = "<span>ログインに成功しました。</span>"
+		result = result + "<a href='createtoken/" + key + "'>リンク</a>";
+	}
+	$("#loginresult").append(result);
+});
+</script>
+</head>
+<body>
+	<section id="result">
+		<p id="loginresult"></p>
+	</section>
+</body>    
+</html>
+{{end}}
