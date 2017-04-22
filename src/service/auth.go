@@ -9,13 +9,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-redis/redis"
 	"util"
+	"storage"
 )
 
 type (
 	AuthHandler struct {
 		util *util.UtilHandler
-		redis *util.RedisHandler
-		db *util.DBHandler
+		redis *storage.RedisHandler
+		db *storage.DBHandler
 	}
 	errorResponse struct {
 		Code string `json: code`
@@ -31,6 +32,8 @@ type (
     validatetokenResponse struct {
     	enable string `json:"enable"`
     }
+    DBConfig storage.DBConfig
+    RedisConfig storage.RedisConfig
 )
 
 /*
@@ -41,11 +44,17 @@ func (ah *AuthHandler)getBody(c echo.Context) string {
 }
 */
 
-func (ah *AuthHandler)Initialize(dbConfig util.DBConfig, redisConfig util.RedisConfig) {
+func (ah *AuthHandler)Initialize(configDB DBConfig, configRedis RedisConfig) {
+	fmt.Println("Initialize Service")
 	ah.util = new(util.UtilHandler)
-	ah.redis = new(util.RedisHandler)
+	ah.redis = new(storage.RedisHandler)
+	var redisConfig storage.RedisConfig
+	util.StructCast(&configRedis, &redisConfig)
 	ah.redis.Initialize(redisConfig)
-	ah.db = new(util.DBHandler)
+	
+	ah.db = new(storage.DBHandler)
+	var dbConfig storage.DBConfig
+	util.StructCast(&configDB, &dbConfig)
 	ah.db.Initialize(dbConfig)
 }
 

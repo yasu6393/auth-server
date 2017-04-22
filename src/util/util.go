@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"time"
+	"encoding/json"
 	"github.com/lazybeaver/xorshift"
 )
 
@@ -10,6 +11,18 @@ type (
 	UtilHandler struct {
 	}
 )
+
+func StructCast(s interface{}, d interface{}) error {
+	tmp, err := json.Marshal(s)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(tmp, d)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func (u *UtilHandler) RandString128() string {
 	xor1024 := xorshift.NewXorShift1024Star(uint64(time.Now().Nanosecond()))

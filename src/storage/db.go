@@ -1,4 +1,4 @@
-package util
+package storage
 
 import (
 	"database/sql"
@@ -11,11 +11,11 @@ type (
 		config DBConfig
 	}
 	DBConfig struct {
-		User string `json:user`
-		Password string `json:password`
-		Host string `json:"host"`
-		Port string `json:"port"`
-		Name string `json:"name"`
+		User string
+		Password string
+		Host string
+		Port string
+		Name string
 	}
 )
 

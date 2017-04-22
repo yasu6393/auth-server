@@ -1,4 +1,4 @@
-package util
+package storage
 
 import (
 	"github.com/go-redis/redis"
@@ -9,10 +9,10 @@ type (
 		config RedisConfig
 	}
 	RedisConfig struct {
-		Addr string `json:addr`
-		Port string `json:"port"`
-		Password string `json:password`
-		DB int `json:db`
+		Addr string
+		Port string
+		Password string
+		DB int
 	}
 )
 
