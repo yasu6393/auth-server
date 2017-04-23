@@ -8,7 +8,7 @@
 		"password": "",
 		"host": "localhost",
 		"port": "3306",
-		"name": "procan"
+		"name": "userdb"
 	},
 	"redis": {
 		"addr": "localhost",
