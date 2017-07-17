@@ -16,8 +16,11 @@ type (
 	}
 )
 
-func (r *RedisHandler) Initialize(config RedisConfig) {
-	r.config = config
+func (r *RedisHandler) Initialize(addr string, port string, password string, db int) {
+	r.config.Addr = addr
+	r.config.Port = port
+	r.config.Password = password
+	r.config.DB = db
 }
 
 func (r *RedisHandler) GetInstance() *redis.Client {

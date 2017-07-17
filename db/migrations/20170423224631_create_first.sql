@@ -18,6 +18,7 @@ CREATE TABLE `client` (
   `id` bigint(20) UNSIGNED NOT NULL COMMENT 'シーケンス',
   `client_id` varchar(32) NOT NULL COMMENT 'クライアントID',
   `client_secret` varchar(1024) NOT NULL COMMENT 'クライアントシークレット',
+  `redirect_uri` varchar(1024) NOT NULL COMMENT 'リダイレクトURL',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ユーザー情報';

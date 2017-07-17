@@ -19,8 +19,12 @@ type (
 	}
 )
 
-func (db *DBHandler) Initialize (config DBConfig) {
-	db.config = config
+func (db *DBHandler) Initialize (user string, password string, host string, port string, name string) {
+	db.config.User = user
+	db.config.Password = password
+	db.config.Host = host
+	db.config.Port = port
+	db.config.Name = name
 }
 
 func (db *DBHandler) GetInstance () (*sql.DB, error) {

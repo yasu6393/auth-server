@@ -4,61 +4,44 @@ import (
 	"fmt"
 	"io"
 	"github.com/labstack/echo"
-	"service"
-	"util"
+	"github.com/ipfans/echo-session"
 	"html/template"
-	"resource/owner"
+	"controler/auth"
 )
 
 type (
 	Template struct {
 	    templates *template.Template
 	}
-	ServerConfig struct {
-		Views string
-	}
-    DBConfig service.DBConfig
-    RedisConfig service.RedisConfig
 )
-
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
     return t.templates.ExecuteTemplate(w, name, data)
 }
 
-func Initialize(serverConfig ServerConfig, configDB DBConfig, configRedis RedisConfig) *echo.Echo {
+func Initialize() *echo.Echo {
 	fmt.Println("Initialize Router")
 	tpl := &Template {
-		templates: template.Must(template.ParseGlob(serverConfig.Views)),
+		templates: template.Must(template.ParseGlob("public/html/*.html")),
 	}
     e := echo.New()
     e.Renderer = tpl
 
-    serv := new(service.AuthHandler)
-
-	var redisConfig service.RedisConfig
-	var dbConfig service.DBConfig
-	util.StructCast(&configRedis, &redisConfig)
-	util.StructCast(&configDB, &dbConfig)
-
-    serv.Initialize(dbConfig, redisConfig)
-
-
-    resource_owner := new(owner.ResourceOwner)
-	var redisConfig2 owner.RedisConfig
-	var dbConfig2 owner.DBConfig
-	util.StructCast(&configRedis, &redisConfig)
-	util.StructCast(&configDB, &dbConfig)
-    resource_owner.Initialize(dbConfig2, redisConfig2)
+	store, err := session.NewRedisStore(32, "tcp", "localhost:6379", "", []byte("secret"))
+	if err != nil {
+		panic(err)
+	}
+    e.Use(session.Sessions("GLOBAL_SESSION", store))
 
     // Routes
+    idp := new (auth.IdP)
+    relp := new (auth.RelP)
     v1 := e.Group("/v1")
     {
-        v1.GET("/token", resource_owner.Token)
-        v1.GET("/login", resource_owner.LoginView)
-        v1.POST("/dologin", resource_owner.Login)
-        v1.GET("/loginresult", resource_owner.LoginResultView)
-        v1.GET("/createtoken/:key", serv.CreateToken)
+        v1.GET("/startauth", relp.StartAuth)
+        v1.GET("/authorize", idp.Authorize)
+        v1.POST("/login", idp.Login)
+        v1.POST("/callback", relp.Callback)
     }
     return e
 }
