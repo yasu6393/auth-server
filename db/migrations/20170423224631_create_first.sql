@@ -6,23 +6,31 @@ SET time_zone = "+09:00";
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ÉVÅ[ÉPÉìÉX',
-  `user` varchar(32) NOT NULL COMMENT 'ÉÜÅ[ÉUÅ[ID',
-  `password` varchar(1024) NOT NULL COMMENT 'ÉpÉXÉèÅ[Éh',
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '„Ç∑„Éº„Ç±„É≥„Çπ',
+  `user` varchar(32) NOT NULL COMMENT '„É¶„Éº„Ç∂„ÉºID',
+  `password` varchar(1024) NOT NULL COMMENT '„Éë„Çπ„ÉØ„Éº„Éâ',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÉÜÅ[ÉUÅ[èÓïÒ';
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(`id`),
+  UNIQUE `user_UNIQUE` (`user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='„É¶„Éº„Ç∂„ÉºÊÉÖÂ†±';
 
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE `client` (
-  `id` bigint(20) UNSIGNED NOT NULL COMMENT 'ÉVÅ[ÉPÉìÉX',
-  `client_id` varchar(32) NOT NULL COMMENT 'ÉNÉâÉCÉAÉìÉgID',
-  `client_secret` varchar(1024) NOT NULL COMMENT 'ÉNÉâÉCÉAÉìÉgÉVÅ[ÉNÉåÉbÉg',
-  `redirect_uri` varchar(1024) NOT NULL COMMENT 'ÉäÉ_ÉCÉåÉNÉgURL',
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '„Ç∑„Éº„Ç±„É≥„Çπ',
+  `client_id` varchar(32) NOT NULL COMMENT '„ÇØ„É©„Ç§„Ç¢„É≥„ÉàID',
+  `client_secret` varchar(1024) NOT NULL COMMENT '„ÇØ„É©„Ç§„Ç¢„É≥„Éà„Ç∑„Éº„ÇØ„É¨„ÉÉ„Éà',
+  `redirect_uri` varchar(1024) NOT NULL COMMENT '„É™„ÉÄ„Ç§„É¨„ÇØ„ÉàURL',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='ÉÜÅ[ÉUÅ[èÓïÒ';
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY(`id`),
+  UNIQUE `client_id_UNIQUE` (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='„ÇØ„É©„Ç§„Ç¢„É≥„ÉàÊÉÖÂ†±';
 
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
+ALTER TABLE `user` DROP `INDEX user_UNIQUE`;
+ALTER TABLE `client` DROP INDEX `client_id_UNIQUE`;
+
+DROP TABLE IF EXISTS `client`;
 DROP TABLE IF EXISTS `user`;
