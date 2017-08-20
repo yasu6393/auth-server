@@ -22,7 +22,8 @@ type (
 	}
 )
 
-
+// 認証・認可の開始時にクライアントからコールする。
+// 本関数がコールされると、任意の認証サーバーにリダイレクトされる
 func (relp *RelP)StartAuth (c echo.Context) error {
 	uh := new (util.UtilHandler)
 	client_id := "authapp"				// TODO:設定に持てるようにする
@@ -61,12 +62,14 @@ func (relp *RelP)StartAuth (c echo.Context) error {
 	return c.Redirect(http.StatusTemporaryRedirect, location_url.String())
 }
 
-
+// 認証サーバーにて、認証が完了した際のコールバックとして使用される。
+//
 func (relp *RelP)Callback (c echo.Context) error {
 //	uh := new (util.UtilHandler)
 	client_id := "authapp"				// TODO:設定に持てるようにする
 	auth_cert := new(AuthCert)
 
+	// 認証開始時に指定したstateとnonceの確認を行う。
 	rh := new (storage.RedisHandler)
 	rh.Initialize ("localhost", "6379", "", 0)
 	redis := rh.GetInstance()

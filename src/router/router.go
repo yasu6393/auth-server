@@ -42,6 +42,8 @@ func Initialize() *echo.Echo {
         v1.GET("/authorize", idp.Authorize)
         v1.POST("/login", idp.Login)
         v1.POST("/callback", relp.Callback)
+        v1.GET("/auth/hello", idp.ChapStart)
+        v1.POST("/auth/authorize", idp.ChapAuth)
     }
     return e
 }
